@@ -71,3 +71,16 @@ def power(number, exponent):
         result = multiplication(result, number)
         exponent -= 1
     return result
+
+def string_check(string): 
+    string = string.lower() #делает регистр строки нижним
+    if (string == "тик"):
+        print("ТАК")
+    elif(string == "так"):
+        print("ТИК")
+    else:
+        print("Часики")
+
+
+string = (input(str("Enter a string > ")))
+string_check(string)
