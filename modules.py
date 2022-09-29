@@ -50,10 +50,10 @@
 
 
 def multiplication(number_1: int, number_2: int):
-    """
-    Функция умножает два числа не используя оператор умножения
-    Пример: 2 * 3 = 2 + 2 + 2 = 3
-    """
+    # """
+    # Функция умножает два числа не используя оператор умножения
+    # Пример: 2 * 3 = 2 + 2 + 2 = 3
+    # """
     result = 0
     while number_2 > 0:
         result += number_1
@@ -82,5 +82,5 @@ def string_check(string):
         print("Часики")
 
 
-string = (input(str("Enter a string > ")))
-string_check(string)
+# string = (input(str("Enter a string > ")))
+# string_check(string)
