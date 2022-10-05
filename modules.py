@@ -7,7 +7,6 @@
 # print(multiplication(2, 3))
 # Выражение from ... import ... можно дословно перевести как "из модуля импортировать функцию".
 
- 
 
 # Из модуля можно импортировать сразу несколько функций.
 
@@ -16,7 +15,7 @@
 # print(multiplication(2, 3))
 
 # print(power(2, 3))
- 
+
 
 # Или импортировать сразу всё.
 
@@ -25,7 +24,7 @@
 # print(multiplication(2, 3))
 
 # print(power(2, 3))
- 
+
 
 # В общем случае следует избегать использования выражения from ... import ... и вместо него использовать оператор import, т.к. при использовании нескольких модулей может возникнуть конфликт имён. Например, в проекте подключены два модуля, в обоих модулях есть функция с названием multiplication. Названия функций одинаковы, но алгоритмы разные. Возникает конфликт имён, какой алгоритм нужно выполнить.
 
@@ -36,7 +35,6 @@
 # print(module.power(2, 3))
 # В этом примере конфликта имён не будет, т.к. перед названием функции указывается название модуля, откуда импортируется команда.
 
- 
 
 # Модулю можно присвоить синоним с помощью оператора as (как) и обращаться к функциям уже через синоним.
 
@@ -72,11 +70,12 @@ def power(number, exponent):
         exponent -= 1
     return result
 
-def string_check(string): 
-    string = string.lower() #делает регистр строки нижним
+
+def string_check(string):
+    string = string.lower()  # делает регистр строки нижним
     if (string == "тик"):
         print("ТАК")
-    elif(string == "так"):
+    elif (string == "так"):
         print("ТИК")
     else:
         print("Часики")
@@ -84,3 +83,8 @@ def string_check(string):
 
 # string = (input(str("Enter a string > ")))
 # string_check(string)
+
+def fill_list(n):  # Fills a list, list should be global
+    for i in range(1, n+1):
+        list.append(int(input("Enter a number > ")))
+    print(list)
