@@ -88,3 +88,15 @@ def fill_list(n):  # Fills a list, list should be global
     for i in range(1, n+1):
         list.append(int(input("Enter a number > ")))
     print(list)
+
+
+# Multiplies pairs of elements (firstl-last) in a list w/ odd AND even number of elements
+def pair_multiply(list):
+    new_list = []
+    i = 0
+    j = len(list) - 1
+    while (len(list) // 2) <= j:
+        new_list.append(list[i]*list[j])
+        j = j - 1
+        i = i + 1
+    print(new_list)
