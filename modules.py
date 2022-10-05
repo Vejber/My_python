@@ -100,3 +100,11 @@ def pair_multiply(list):
         j = j - 1
         i = i + 1
     print(new_list)
+
+    # reverse list
+    def reverse_list(result):
+        for i in range(len(result)//2 + len(result) % 2):
+        temp = result[i]
+        result[i] = result[len(result) - 1 - i]
+        result[len(result) - 1 - i] = temp
+    print(result)
