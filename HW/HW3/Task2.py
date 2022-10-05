@@ -18,17 +18,10 @@ def pair_multiply(list):
     new_list = []
     i = 0
     j = len(list) - 1
-    if len(list) % 2 == 0:
-        while (len(list) // 2) <= j:
-            new_list.append(list[i]*list[j])
-            j = j - 1
-            i = i + 1
-    else:
-        while (((len(list) // 2)) <= j):
-            new_list.append(list[i]*list[j])
-            j = j - 1
-            i = i + 1
-
+    while (len(list) // 2) <= j:
+        new_list.append(list[i]*list[j])
+        j = j - 1
+        i = i + 1
     print(new_list)
 
 
