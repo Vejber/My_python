@@ -40,13 +40,12 @@ def odd_sum(data):
 
     sum_odds = []
 
-    # i = 0
-    # for index in range(len(data)):
-    #     sum_odds = list(filter(lambda index: index % 2, data))
-
     for i in range(0, len(data)-1):
         if i % 2 != 0:
             sum_odds.append(data[i])
+
+    # sum_odds = list(filter((data[i] % 2, i in range(0, len(data))))
+    #  как работать с индексами в функциях типа фиьтр, мап, лямбда?
 
     print(sum_odds)
     print("The total of odd elements in list is {}.".format(len(sum_odds)))
