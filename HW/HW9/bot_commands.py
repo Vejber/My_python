@@ -1,93 +1,63 @@
-from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-from random import *
-from logger import *
-# from logger import *
-# import datetime
-# как сделать чтобы бот ждал и учитывал ответ пользователя
+import telebot
+from random import randint
+
+bot = telebot.TeleBot(
+    "5708923731:AAEyzEvexF8j_n4-DNK_Os72qx7GRO0q8dk", parse_mode=None)
+
+is_game_on = False
+candies = 2021
 
 
-async def hello_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(f'Hi {update.effective_user.first_name}')
-
-
-async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    candies = 2021
-    count_player1 = 0
-    count_bot = 0
-    # player1 = input("What's your name? > ")
-    first_move = randint(1, 1)
-    if first_move == 1:
-        while candies > 0:
-            # n1 = int(  update.message.reply_text('How many candies will you take this time? > '))
-            # кладем сообщение пользователя в переменную
-            # update.message.reply_text(
-            #     'How many candies will you take this time? > ')
-            await update.message.reply_text('How many candies will you take this time? > ')
-            await update.message.reply_text('?')
-
-            # await update.message.reply_text
-            await log_command(update, context)
-            n1 = update.message.text
-            items = n1.split()  # создаем список из сообщения, 1 элемента (n)
-            print(items)
-            # msg = str(msg)
-            n1 = int(items[0])
-            print(n1)
-        while (n1 <= 0 or n1 > 28 or n1 > candies):
-            update.message.reply_text(
-                "The number of candies taken should be more than zero, less than 29 and less than the number of candies left")
-            n1 = int(update.message.reply_text(
-                'How many candies will you take this time? > '))
-        if (n1 > 0 and n1 < 29 and n1 <= candies):
-            candies = candies - n1
-            count_player1 = count_player1 + n1
-            update.message.reply_text("Candies left {}.".format(candies))
-            if candies == 0:
-                update.message.reply_text("You win! The total of your candies is {}.". format(
-                    count_bot+count_player1))
-              #    break
-
-        n2 = randint(1, 28)
-        if n2 > candies:
-            n2 = randint(1, candies)
-
-        candies = candies - n2
-        count_bot = count_bot + n2
-        update.message.reply_text("Bot took {}.".format(n2))
-        update.message.reply_text("Candies left {}.".format(candies))
-        if candies == 0:
-            update.message.reply_text("Bot wins! The total of its' candies is {}.". format(
-                count_bot+count_player1))
-            # break
+def bots_move(message):
+    global candies, is_game_on
+    n = randint(1, 28)
+    if n < candies:
+        candies -= n
+        bot.send_message(
+            message.chat.id, f'Bot took {n} candies. The number of candies left is {candies}.')
     else:
-        while candies > 0:
-            n2 = randint(1, 28)
-            if n2 > candies:
-                n2 = randint(1, candies)
+        is_game_on = False
+        bot.send_message(message.chat.id, 'Game over. Bot wins.')
 
-            candies = candies - n2
-            count_bot = count_bot + n2
-            update.message.reply_text("Bot took {}.".format(n2))
-            update.message.reply_text("Candies left {}.".format(candies))
-            if candies == 0:
-                update.message.reply_text("Bot wins! The total of its' candies is {}.". format(
-                    count_bot+count_player1))
-                # break
 
-            n1 = int(update.message.reply_text(
-                "How many candies will you take this time? > "))
-            while (n1 <= 0 or n1 > 28 or n1 > candies):
-                update.message.reply_text(
-                    "The number of candies taken should be more than zero, less than 29 and less than the number of candies left")
-                n1 = int(update.message.reply_text(
-                    "How many candies will you take this time? > "))
-            if (n1 > 0 and n1 < 29 and n1 <= candies):
-                candies = candies - n1
-                count_player1 = count_player1 + n1
-                update.message.reply_text("Candies left {}.".format(candies))
-                if candies == 0:
-                    update.message.reply_text("You win! The total of your candies is {}.". format(
-                        count_bot+count_player1))
-                  # break
-            update.message.reply_text(f'Hi {update.effective_user.first_name}')
+@bot.message_handler(commands=['start'])
+def start_game(message):
+    global is_game_on
+    if not is_game_on:
+        global candies
+        is_game_on = True
+        is_players_turn = bool(randint(0, 1))
+        bot.send_message(
+            message.chat.id, f'The number of candies left is {candies}. {"Player" if is_players_turn else "Bot"} does the first move')
+        bot.send_message(
+            message.chat.id, 'Enter a number less than 29.') if is_players_turn else bots_move(message)
+        if is_game_on:
+            is_players_turn = not is_players_turn
+
+
+@bot.message_handler(func=lambda _: is_game_on)
+def players_move(message):
+    global candies, is_game_on
+    try:
+        n = int(message.text)
+        if n > 28:
+            bot.send_message(
+                message.chat.id, 'The number should not be more than 28. Try again.')
+        else:
+            if n < candies:
+                candies -= n
+                bot.send_message(
+                    message.chat.id, f'The number of candies left is {candies}.')
+                bots_move(message)
+                if is_game_on:
+                    bot.send_message(
+                        message.chat.id, 'Enter a number less than 29.')
+            else:
+                candies = 0
+                is_game_on = False
+                bot.send_message(message.chat.id, 'The game is over, you win.')
+    except:
+        bot.send_message(message.chat.id, 'Try again.')
+
+
+bot.infinity_polling()
