@@ -1,6 +1,8 @@
+from find_worker import edit_worker
 from add_person import add_person as add
 from find_worker import find_worker as find
-from find_worker import edit_worker as edit
+from edit import edit
+from base_editor import base_edit
 
 
 action = int(input("Choose 1 for add OR 2 for seach OR 3 for edit> "))
@@ -18,8 +20,17 @@ elif action == 2:
     contact = find(name)
     print(contact)
 elif action == 3:
-    find_id = str(input("Enter id > "))
-    contact = edit(find_id)
-    print(contact)
+    path = 'HW/HW8/workers.csv'
+    with open(path, 'r') as data:
+        li = data.readlines()
+    new_base = base_edit(li)
+
+    # data = open(path, 'r')
+    # # for line in data:
+    # li = list(map(str, data.split('\n')))
+
+    # find_id = str(input("Enter id > "))
+    # contact = edit(find_id)
+    # print(contact)
 else:
     print("Wrong command, try again.")

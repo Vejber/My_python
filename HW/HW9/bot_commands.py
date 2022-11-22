@@ -4,8 +4,8 @@ from random import randint
 bot = telebot.TeleBot(
     "5708923731:AAEyzEvexF8j_n4-DNK_Os72qx7GRO0q8dk", parse_mode=None)
 
-is_game_on = False
-candies = 2021
+# is_game_on = False
+# candies = 2021
 
 
 def bots_move(message):
